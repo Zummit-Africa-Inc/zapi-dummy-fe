@@ -43,7 +43,7 @@ const CreateOrg = () => {
       // if(!user.profileID){
       //   alert('This user is not verified')
       // }else{
-        const data = await organizationUser(payload, user.profileID)
+        const data = await organizationUser(payload, user.profileId)
         console.log(data)
       // }
       
