@@ -1,6 +1,7 @@
 export { default as Categories } from './Categories'
 export { default as Category } from './Category'
 export { default as CreateOrg } from './CreateOrg'
+export { default as EditProfile } from './EditProfile'
 export { default as ForgotPassword } from './ForgotPassword'
 export { default as Home } from './Home'
 export { default as LoginPage } from './LoginPage'

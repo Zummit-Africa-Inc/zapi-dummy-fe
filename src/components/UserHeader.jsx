@@ -4,6 +4,8 @@ import { Avatar, Stack, Typography, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { CameraAltRounded } from '@mui/icons-material'
 import Typed from "react-typed"
+import { useSelector } from 'react-redux'
+
 
 const useStyles = makeStyles({
   main: {
@@ -19,7 +21,8 @@ const useStyles = makeStyles({
   },
 })
 
-const UserHeader = ({ image, id }) => {
+const UserHeader = ({ image, id}) => {
+  const { user } = useSelector(store => store.user)
   const classes = useStyles()
 
     return(
@@ -40,8 +43,8 @@ const UserHeader = ({ image, id }) => {
           </Typography>
           <Typed strings={['Update your photo ','and personal details']} typeSpeed={40} backSpeed={30} loop />
         </Stack>
-        <Link to={`/user/edit/${id}`}>
-          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }}>
+        <Link to={`/user/edit/${user.userId}`}>
+          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }} >
             Edit
           </Button>
         </Link>

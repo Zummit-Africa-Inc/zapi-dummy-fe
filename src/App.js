@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ThemeProvider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
-import { ForgotPassword, Home, LoginPage, SingleApi, UserProfile, Categories, Category, CreateOrg, Signup, Settings, MyApiPage, Endpoint } from './pages'
+import { ForgotPassword, Home, LoginPage, SingleApi, UserProfile, EditProfile, Categories, Category, CreateOrg, Signup, Settings, MyApiPage, Endpoint } from './pages'
 import { Navbar } from './components'
 import { theme } from './theme'
 import { getApis } from './redux/features/api/apiSlice'
@@ -69,6 +69,7 @@ const App = () => {
 
           {/* User Pages */}
           <Route path='/user/:id' element={isLoggedIn ? <UserProfile /> : <Navigate to='/login' />} />
+          <Route path='/user/edit/:id' element={isLoggedIn ? <EditProfile /> : <Navigate to='/login' />} />
           <Route path='/user/settings' element={isLoggedIn ? <Settings /> : <Navigate to='/login' />} />
 
           {/* Organization Pages */}
