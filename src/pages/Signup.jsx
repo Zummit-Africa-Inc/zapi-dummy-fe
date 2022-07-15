@@ -76,7 +76,7 @@ const SignupPage = () => {
         }catch(err) {}
         
         if(error) return
-        navigate('/login')
+        navigate('/tokenpage')
         setFullName(''); setEmail(''); setPassword('');
     }
 

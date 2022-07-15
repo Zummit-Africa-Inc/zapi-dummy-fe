@@ -14,13 +14,14 @@ import { login } from './redux/features/user/userSlice'
 import ApiEndpoint from './pages/ApiEndpoint'
 import OrganizationPage from './pages/OrganizationPage'
 import OrgList from './pages/OrgList'
+import TokenPage from './pages/Tokenpage';
 
 const useStyles = makeStyles({
   router_container: {
     width: `100%`,
     marginTop: '6rem',
   }
-}) 
+})
 
 const App = () => {
   const [query, setQuery] = useState('')
@@ -30,19 +31,19 @@ const App = () => {
 
   const getUserFromLS = () => {
     const user = getWithExpiry('user')
-    if(!user) return null
+    if (!user) return null
     dispatch(login(user))
   }
 
-  useEffect(() =>{
-      dispatch(getSingleApis())
-    },[]) 
+  useEffect(() => {
+    dispatch(getSingleApis())
+  }, [])
 
   useEffect(() => {
     dispatch(getApis())
     getUserFromLS()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     dispatch(getSingleApis())
@@ -58,6 +59,7 @@ const App = () => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/tokenpage' element={<TokenPage />} />
 
           {/* API Pages */}
           <Route path='/api/:id' element={<SingleApi />} />
@@ -72,7 +74,7 @@ const App = () => {
           <Route path='/user/settings' element={isLoggedIn ? <Settings /> : <Navigate to='/login' />} />
 
           {/* Organization Pages */}
-          <Route path='/orgs/:Id'  element={isLoggedIn ? <OrganizationPage /> : <Navigate to='/login' />} />
+          <Route path='/orgs/:Id' element={isLoggedIn ? <OrganizationPage /> : <Navigate to='/login' />} />
           <Route path='/orgs/create-new' element={isLoggedIn ? <CreateOrg /> : <Navigate to='/login' />} />
           <Route path='/orgs-list/:id' element={isLoggedIn ? <OrgList /> : <Navigate to='/login' />} />
         </Routes>
