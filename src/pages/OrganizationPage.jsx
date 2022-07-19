@@ -8,6 +8,7 @@ import OrganizationInvite from '../components/OrganizationInvite';
 import OrgTeammates from '../components/OrgTeammates';
 
 
+
 const OrganizationPage = () => {
   const useStyles = makeStyles({
     main: {
@@ -55,7 +56,6 @@ const classes = useStyles()
         </div>
       </section>
     </div>
-
   )
 }
 

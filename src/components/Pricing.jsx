@@ -12,8 +12,6 @@ import apicalls from '../assets/apicalls.webp'
 import countries from '../assets/countries.webp'
 import sponsors from '../assets/sponsors.webp'
 import charts from '../assets/charts.webp'
-import { getPricing } from '../redux/features/pricing/pricingSlice'
-import LoadingSpinner from './LoadingSpinner'
 
 const useStyles = makeStyles({
     section: {
@@ -37,8 +35,6 @@ const Pricing = ({setOpenPopup}) => {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
-    const dispatch = useDispatch()
-    const { pricing, isLoading } = useSelector(store => store.pricing)
     const { user } = useSelector(store => store.user)
 
     const handleMenu = (e) => {
@@ -49,11 +45,6 @@ const Pricing = ({setOpenPopup}) => {
         setAnchorEl(null)
     }
 
-    useEffect(() => {
-        dispatch(getPricing())
-    },[])
-
-    if(isLoading) return <LoadingSpinner/>
 
   return (
     <Stack direction='column' alignItems='center' justifyContent='center'>

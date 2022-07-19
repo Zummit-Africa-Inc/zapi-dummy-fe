@@ -73,7 +73,7 @@ const App = () => {
           <Route path='/user/settings' element={isLoggedIn ? <Settings /> : <Navigate to='/login' />} />
 
           {/* Organization Pages */}
-          <Route path='/orgs/:Id'  element={isLoggedIn ? <OrganizationPage /> : <Navigate to='/login' />} />
+          <Route path='/orgs/:id'  element={isLoggedIn ? <OrganizationPage /> : <Navigate to='/login' />} />
           <Route path='/orgs/create-new' element={isLoggedIn ? <CreateOrg /> : <Navigate to='/login' />} />
           <Route path='/orgs-list/:id' element={isLoggedIn ? <OrgList /> : <Navigate to='/login' />} />
         </Routes>

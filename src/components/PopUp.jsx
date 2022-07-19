@@ -65,6 +65,8 @@ const useStyles = makeStyles({
     }
 })
 
+const url = process.env.REACT_APP_BASE_URL
+
 const PopUp = ({closePopUp}) => {
     const classes = useStyles()
     const { subscriptionData } = useSelector(state => state.subscription)
@@ -75,6 +77,7 @@ const PopUp = ({closePopUp}) => {
         el.value = text
         document.body.appendChild(el)
         el.select()
+        // To be replaced 
         document.execCommand('copy')
         document.body.removeChild(el)
     }
@@ -98,7 +101,7 @@ const PopUp = ({closePopUp}) => {
                     <div className={classes.text}>
                         <div className={classes.token} onClick={clickToCopy}>
                         <Typography variant='caption'>
-                            {subscriptionData.data.subscriptionToken ? `http://localhost/api/${subscriptionData.data.subscriptionToken}` : 'No Token'}
+                            {subscriptionData.data.subscriptionToken ? `${url}/${subscriptionData.data.subscriptionToken}` : 'No Token'}
                         </Typography>
                         </div>
                         <FileCopyOutlined fontSize='small' />

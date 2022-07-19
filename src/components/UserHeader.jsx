@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
 })
 
-const UserHeader = ({ image, id}) => {
+const UserHeader = ({ image, profileId }) => {
   const { user } = useSelector(store => store.user)
   const classes = useStyles()
 
@@ -43,8 +43,8 @@ const UserHeader = ({ image, id}) => {
           </Typography>
           <Typed strings={['Update your photo ','and personal details']} typeSpeed={40} backSpeed={30} loop />
         </Stack>
-        <Link to={`/user/edit/${user.userId}`}>
-          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }} >
+        <Link to={`/user/edit/${user.profileId}`}>
+          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }}>
             Edit
           </Button>
         </Link>

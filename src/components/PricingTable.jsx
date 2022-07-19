@@ -8,8 +8,8 @@ import { useSubscriptionService } from '../services/subscriptionService';
 import { useUnSubscribeService } from '../services/unsubscribeService';
 import { setSubscriptionData } from '../redux/features/subscription/subscriptionSlice';
 
-const createData = (status, search, features, payperuse, freetouse) => {
-  return { status, search, features, payperuse, freetouse };
+const createData = (statushead, search, features, payperuse, freetouse) => {
+  return { statushead, search, features, payperuse, freetouse };
 }
 
 const rows = [
@@ -195,11 +195,11 @@ const BasicTable = ({setOpenPopup}) => {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.statushead}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.status}
+                {row.statushead}
               </TableCell>
               <TableCell align="right">{row.search}</TableCell>
               <TableCell align="right">{row.features}</TableCell>
@@ -214,15 +214,3 @@ const BasicTable = ({setOpenPopup}) => {
 }
 
 export default BasicTable;
-
-//
-// Sample for Subscription endpoint
-//
-// const pricingSub = async () => {
-//   const res = await axios.post('api/subsription/subscribe', { name: fields.name })
-//   console.log(res.data)
-// }
-
-// <div>
-//   <Button onClick={() => pricingSub()}>Subscribe</Button>
-// </div>

@@ -45,7 +45,7 @@ const Home = () => {
   return (
     <>
     {error && (
-      <Alert style={{ position: 'absolute', top: '10%', zIndex:3 }} severity='error' onClose={() => dispatch(clearError)}>
+      <Alert style={{ position: 'absolute', top: '10%', zIndex:3 }} severity='error' onClose={() => dispatch(clearError())}>
         {error}
       </Alert>)}
     <main className={classes.main}>
