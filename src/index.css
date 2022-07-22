@@ -132,6 +132,16 @@ a {
   transition: var(--transition);
 }
 
+/*
+* ====================
+* Carousel
+* ====================
+*/
+.react-multi-carousel-list {
+  height: 250px;
+  padding-left: 1rem;
+}
+
 /******* For Reset Password ************/
 .container {
 	width: 100vw;

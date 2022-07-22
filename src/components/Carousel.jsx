@@ -35,6 +35,7 @@ const CarouselComponent = ({ header, description, category }) => {
   data.map((api) => {
     array.push(arrayData(api.name, api.id))
   })
+  array.length = 4
 
   const responsive = {
     desktop: {

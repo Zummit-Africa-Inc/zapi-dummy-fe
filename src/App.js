@@ -1,34 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { ThemeProvider } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import Cookies from "universal-cookie";
-import {
-	ForgotPassword,
-	Home,
-	LoginPage,
-	SingleApi,
-	UserProfile,
-	Categories,
-	Category,
-	CreateOrg,
-	Signup,
-	Settings,
-	MyApiPage,
-	Endpoint,
-} from "./pages";
-import EmailVerify from "./pages/EmailVerify";
-import PasswordReset from "./pages/PasswordReset";
-import { Navbar } from "./components";
-import { theme } from "./theme";
-import { getApis } from "./redux/features/api/apiSlice";
-import { getSingleApis } from "./redux/features/singleApi/singleApiSlice";
-import { login } from "./redux/features/user/userSlice";
-import ApiEndpoint from "./pages/ApiEndpoint";
-import OrganizationPage from "./pages/OrganizationPage";
-import OrgList from "./pages/OrgList";
-import { RequireAuth } from "./components/RequireAuth";
+import React, { useEffect, useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { ThemeProvider } from '@mui/material'
+import { makeStyles } from '@mui/styles'
+import Cookies from 'universal-cookie'
+
+import { ForgotPassword, Home, LoginPage, SingleApi, UserProfile, Categories, Category, CreateOrg, Signup, Settings, MyApiPage, Endpoint } from './pages'
+import EmailVerify from './pages/EmailVerify';
+import PasswordReset from './pages/PasswordReset'
+import { Navbar } from './components'
+import { theme } from './theme'
+import { getApis } from './redux/features/api/apiSlice'
+import { getSingleApis } from './redux/features/singleApi/singleApiSlice'
+import { login } from './redux/features/user/userSlice'
+import ApiEndpoint from './pages/ApiEndpoint'
+import OrganizationPage from './pages/OrganizationPage'
+import OrgList from './pages/OrgList'
+import { RequireAuth } from './components/RequireAuth'
+
 
 const useStyles = makeStyles({
 	router_container: {
@@ -38,11 +27,10 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-	const [query, setQuery] = useState("");
-	const classes = useStyles();
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-	const cookies = new Cookies();
+  const [query, setQuery] = useState('')
+  const classes = useStyles()
+  const dispatch = useDispatch()
+  const cookies = new Cookies()
 
 	const accessToken = cookies.get("accessToken");
 

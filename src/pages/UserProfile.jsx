@@ -49,7 +49,7 @@ const UserProfile = () => {
 
   return (
     <Stack direction='column' px={1}>
-      <UserHeader image={user.image} id={user.id} />
+      <UserHeader image={user.image} id={user.profileId} />
       <Stack direction='column' spacing={2} my={4} >
           <Typography variant='h6' style={{ fontSize: '1rem'}}>
             Name: 
