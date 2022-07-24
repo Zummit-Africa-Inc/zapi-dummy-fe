@@ -96,7 +96,7 @@ const MyApiPage = () => {
                     <FormControl fullWidth>
                         <InputField multiline rows={4} type='text' placeholder="Describe your API" value={description} onChange={(e) => setDescription(e.target.value)} />
                     </FormControl>
-                    <InputLabel required>WEBSITE</InputLabel>
+                    <InputLabel required>BASE URL</InputLabel>
                     <FormControl>
                         <InputField fullWidth type='url' value={base_url} onChange={(e) => setBase_Url(e.target.value)} placeholder='URL' />
                     </FormControl>

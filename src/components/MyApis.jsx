@@ -42,8 +42,6 @@ const MyApis = () => {
         }
     })
 
-    console.log(lists)
-
     return (
         <div>
             <Stack direction='row' spacing={2} alignItems='center' className={classes.options}>

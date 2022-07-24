@@ -4,7 +4,6 @@ import { Stack, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
-
 import { Textbox } from './index'
 import { useFetch } from '../services/useFetch'
 
@@ -24,16 +23,15 @@ const useStyles = makeStyles({
   },
 })
 
-const arrayData = (name, id) => {
-  return { name, id }
-}
-
-const array = []
-
 const CarouselComponent = ({ header, description, category }) => {
   const classes = useStyles()
   const { data } = useFetch(`${base_url}/api`)
 
+  const arrayData = (name, id ) => {
+    return { name, id }
+}
+
+  const array = []
   data.map((api) => {
     array.push(arrayData(api.name, api.id))
   })

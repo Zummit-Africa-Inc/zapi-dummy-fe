@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Badge, Button, IconButton, Stack, Toolbar } from '@mui/material'
 import { NotificationsOutlined, SearchOutlined } from '@mui/icons-material'
 import { makeStyles } from '@mui/styles'
+import Cookies from 'universal-cookie'
 
 import { AddNewMenu, Modal, Search, UserMenu } from './index'
 import { logout } from '../redux/features/user/userSlice'
 import { closeModal } from '../redux/features/modal/modalSlice'
 import { openSearchModal, closeSearchModal } from '../redux/features/search/searchSlice'
-
 
 const useStyles = makeStyles({
     nav: {
@@ -34,6 +34,7 @@ const Navbar = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const cookies = new Cookies()
 
     const { isLoggedIn } = useSelector(store => store.user)
     const { isOpen } = useSelector(store => store.modal)
@@ -47,14 +48,23 @@ const Navbar = () => {
         }
     }
 
+    const logoutFn = () => {
+        dispatch(logout())
+        dispatch(closeModal())
+        
+        cookies.remove('accessToken')
+        cookies.remove('refreshToken')
+        cookies.remove('profileId')
+        cookies.remove('fullName')
+        cookies.remove('email')
+
+        navigate('/login')
+    }
+
     return (
         <>
             {/* modal for logout confirmatio */}
-            {isOpen && <Modal message='Are you sure you want to log out?' confirm={() => {
-                dispatch(logout())
-                dispatch(closeModal())
-                navigate('/login')
-            }} />}
+            {isOpen && <Modal message='Are you sure you want to log out?' confirm={logoutFn} />}
             {/* search modal */}
             {isSearchModalOpen && <Search closeModal={() => dispatch(closeSearchModal())} />}
             <nav className={classes.nav}>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { deviceDetect } from 'react-device-detect'
 import { Alert, Button, Checkbox, Divider, FormControlLabel, ListItem, Stack, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { CheckCircleOutline } from '@mui/icons-material'
 import { Icon } from '@iconify/react'
+import Cookies from 'universal-cookie'
 
 import { InputField, LoadingSpinner, NavbarAuth } from '../components'
 import { login } from '../redux/features/user/userSlice'
@@ -66,6 +67,8 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { clearError, error, loading, loginUser } = useLoginService()
+  const prevPath = useLocation()
+  const cookies = new Cookies()
 
   const getLocation = async() => {
     const res = await fetch(
@@ -94,7 +97,20 @@ const LoginPage = () => {
 
       if(!data || data === undefined) return
 
-      navigate(`/`)
+      const { data: { access, refresh, profileId, fullName, email, userId } } = data
+      cookies.set('accessToken', access)
+      cookies.set('refreshToken', refresh)
+      cookies.set('profileId', profileId)
+      cookies.set('fullName', fullName)
+      cookies.set('email', email)
+      cookies.set('userId', userId)
+
+      if(!prevPath.state || prevPath.state === null) {
+        navigate('/')
+      } else {
+        navigate(prevPath.state.from.pathname, { replace: true })
+      }
+
     } catch (error) {
       console.log(error)
     }

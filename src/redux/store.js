@@ -7,6 +7,7 @@ import searchReducer from './features/search/searchSlice'
 import singleApiReducer from './features/singleApi/singleApiSlice'
 import subscriptionReducer from './features/subscription/subscriptionSlice'
 
+
 export const store = configureStore({
     reducer: {
         user: userReducer,

@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { useSubscriptionService } from '../services/subscriptionService';
 import { useUnSubscribeService } from '../services/unsubscribeService';
 import { setSubscriptionData } from '../redux/features/subscription/subscriptionSlice';
+import { RequireAuth } from './RequireAuth';
 
 const createData = (statushead, search, features, payperuse, freetouse) => {
   return { statushead, search, features, payperuse, freetouse };
@@ -102,7 +103,7 @@ const BasicTable = ({setOpenPopup}) => {
   const toggleButtonUltra = async (e) => {
     e.preventDefault()
     if (!isLoggedIn) {
-      navigate('/login')
+      navigate(<RequireAuth />)
   } else {
     setButtonSwitchUltra(!buttonSwitchUltra)
     try {

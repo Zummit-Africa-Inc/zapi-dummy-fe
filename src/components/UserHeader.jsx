@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { Avatar, Stack, Typography, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { CameraAltRounded } from '@mui/icons-material'
+import Cookies from 'universal-cookie'
 import Typed from "react-typed"
-import { useSelector } from 'react-redux'
+
+
 
 
 const useStyles = makeStyles({
@@ -21,9 +23,12 @@ const useStyles = makeStyles({
   },
 })
 
-const UserHeader = ({ image, profileId }) => {
-  const { user } = useSelector(store => store.user)
+const UserHeader = ({ image, profileId, onClick }) => {
+ 
   const classes = useStyles()
+ 
+  const cookies = new Cookies()
+  const userId = cookies.get('userId')
 
     return(
     <>
@@ -43,8 +48,8 @@ const UserHeader = ({ image, profileId }) => {
           </Typography>
           <Typed strings={['Update your photo ','and personal details']} typeSpeed={40} backSpeed={30} loop />
         </Stack>
-        <Link to={`/user/edit/${user.profileId}`}>
-          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }}>
+        <Link to={`/user/edit/${userId}`}>
+          <Button variant='contained' style={{ height: '40px', marginLeft:'auto', marginTop:'2rem' }} onClick={onClick} >
             Edit
           </Button>
         </Link>
