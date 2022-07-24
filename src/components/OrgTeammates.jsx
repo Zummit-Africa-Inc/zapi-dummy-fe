@@ -31,7 +31,6 @@ export default function OrganizationTeammates() {
 		const data = await res.json();
 		setOrgTeam(data.data);
 	}
-	console.log(orgTeam);
 	useEffect(() => {
 		getOrganizationUsers();
 	}, []);
