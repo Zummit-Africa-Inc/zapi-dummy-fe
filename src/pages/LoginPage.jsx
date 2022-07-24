@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie'
 
 import { InputField, LoadingSpinner, NavbarAuth } from '../components'
 import { login } from '../redux/features/user/userSlice'
-import { useLoginService, setWithExpiry } from '../services/loginService'
+import { useHttpRequest } from '../hooks/fetch-hook'
 
 const useStyles = makeStyles({
   main: {
@@ -61,20 +61,18 @@ const useStyles = makeStyles({
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [location, setLocation] = useState('')
+  const [location, setLocation] = useState({})
   const [rememberMe, setRememberMe] = useState(false)
   const classes = useStyles()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { clearError, error, loading, loginUser } = useLoginService()
+  const { clearError, error, loading, sendRequest } = useHttpRequest()
   const prevPath = useLocation()
   const cookies = new Cookies()
+  const url = process.env.REACT_APP_IDENTITY_URL
 
   const getLocation = async() => {
-    const res = await fetch(
-      "https://geolocation-db.com/json/8dd79c70-0801-11ec-a29f-e381a788c2c0"
-    ).catch(() => {});
-    const data = res ? await res.json() : null;
+    const data = await sendRequest("https://geolocation-db.com/json/8dd79c70-0801-11ec-a29f-e381a788c2c0")
     setLocation(data)
   }
 
@@ -85,22 +83,20 @@ const LoginPage = () => {
     const time = new Date().toISOString()
 
     const payload = {email, password, location, time , device}
-
+    const body = JSON.stringify(payload)
+    const headers = {'Content-Type': 'application/json'}
     try {
-      const data = await loginUser(payload)
+      const data = await sendRequest(`${url}/auth/signin`, 'POST', body, headers)
       dispatch(login(data.data))
       console.log(data)
 
-      if(rememberMe){
-        setWithExpiry('user', data.data, 3600000)
-      }
-
       if(!data || data === undefined) return
 
-      const { data: { access, refresh, profileId, fullName, email, userId } } = data
+      const { data: { access, refresh, profileId, userId, fullName, email } } = data
       cookies.set('accessToken', access)
       cookies.set('refreshToken', refresh)
       cookies.set('profileId', profileId)
+      cookies.set('userId', userId)
       cookies.set('fullName', fullName)
       cookies.set('email', email)
       cookies.set('userId', userId)

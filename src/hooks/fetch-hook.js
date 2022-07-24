@@ -27,9 +27,7 @@ export const useHttpRequest = () => {
             const data = await response.json()
 
             // Filter every other request controllers except the abort method
-            activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => {
-                reqCtrl !== httpAbortCtrl}
-            )
+            activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl)
 
             if(!response.ok) {
                 throw new Error(data.message)
@@ -40,7 +38,6 @@ export const useHttpRequest = () => {
         } catch (error) {
             setError(error.message)
             setLoading(false)
-            throw error
         }
     // Empty dependency array to run function only once
     },[])

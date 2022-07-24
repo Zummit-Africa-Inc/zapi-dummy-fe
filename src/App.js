@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { Routes, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { ThemeProvider } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Cookies from 'universal-cookie'
 
 import { ForgotPassword, Home, LoginPage, SingleApi, UserProfile, EditProfile, Categories, Category, CreateOrg, Signup, Settings, MyApiPage, Endpoint } from './pages'
+import EmailVerify from './pages/EmailVerify';
+import PasswordReset from './pages/PasswordReset'
 import { Navbar } from './components'
 import { theme } from './theme'
 import { getApis } from './redux/features/api/apiSlice'
@@ -28,7 +30,6 @@ const App = () => {
   const [query, setQuery] = useState('')
   const classes = useStyles()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const cookies = new Cookies()
 
   const accessToken = cookies.get('accessToken')
@@ -38,11 +39,11 @@ const App = () => {
       const accessToken = cookies.get('accessToken')
       const refreshToken = cookies.get('refreshToken')
       const profileId = cookies.get('profileId')
+      const userId = cookies.get('userId')
       const fullName = cookies.get('fullName')
       const email = cookies.get('email')
-      const data = { accessToken, refreshToken, profileId, fullName, email}
+      const data = { accessToken, refreshToken, profileId, userId, fullName, email}
       dispatch(login(data))
-      navigate(`/user/${profileId}`)
     }
   }
 
@@ -67,6 +68,8 @@ const App = () => {
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/email-verify' element={<EmailVerify />} />
+          <Route path='/password-reset/:id/:token' element={<PasswordReset />} />
 
           {/* API Pages */}
           <Route path='/api/:id' element={<SingleApi />} />

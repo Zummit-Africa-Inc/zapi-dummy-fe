@@ -8,6 +8,11 @@ const inputReducer = (state, action) => {
                 ...state,
                 [action.key]: action.value,
             }
+        case 'check':
+            return {
+                ...state,
+                [action.key]: !action.value
+            }
             default:
                 return state
             }
@@ -26,5 +31,10 @@ export const useFormInputs = (initialState) => {
         dispatch({type: 'text', key:[e.target.name], value: e.target.value})
     }
 
-    return { inputs, handleInputChange }
+    //This function handles checkbox switches
+    const handleCheckChange = (e) => {
+        dispatch({type: 'check', key:[e.target.name], value: e.target.check})
+    }
+
+    return { inputs, handleInputChange, handleCheckChange }
 }

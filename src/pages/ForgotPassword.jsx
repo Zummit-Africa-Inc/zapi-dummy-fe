@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from "axios";
 import { Button, Stack, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
@@ -21,15 +22,38 @@ const useStyles = makeStyles({
   }
 })
 
+const identity_url = process.env.REACT_APP_IDENTITY_URL
+
+
 const ForgotPassword = () => {
   const classes = useStyles()
-  const [email, setEmail] = useState('')
+  const [msg, setMsg] = useState('')
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(email)
-    setEmail('')
+    const userData = {email: email}
+    try{
+      const url = `${identity_url}/auth/forgot/post`;
+      const res = await axios.post(url, userData);
+      // console.log(res);
+      setMsg(res.data.message);
+      setError("");   
+    } catch (error){
+      console.log(error);
+      if (
+        error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+      ){
+        setError(error.response.data.message);
+				setMsg("");
+      }
+    }
   }
+
+  
 
   return (
   <Stack direction='column' height='60vh' alignItems='center' justifyContent='center' textAlign='center' py={1} px={2}>
@@ -39,8 +63,10 @@ const ForgotPassword = () => {
     <Typography variant='body1'>
       No need to worry, we'll send you an email with instructions to reset.
     </Typography>
+        {error && <div className="error_msg">{error}</div>}
+				{msg && <div className="success_msg">{msg}</div>}
     <form className={classes.form} onSubmit={handleSubmit}>
-      <InputField fullWidth type='text' value={email} onChange={(e) => setEmail(e.target.value)} label='Email' placeholder='Enter your email' />
+      <InputField fullWidth type='email' value={email} required onChange={(e) => setEmail(e.target.value)} label='Email' placeholder='Enter your email' />
       <Button type='submit' variant='contained'>
         reset password
       </Button>

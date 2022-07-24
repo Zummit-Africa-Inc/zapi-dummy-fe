@@ -132,3 +132,37 @@ a {
   transition: var(--transition);
 }
 
+/*
+* ====================
+* Carousel
+* ====================
+*/
+.react-multi-carousel-list {
+  height: 250px;
+  padding-left: 1rem;
+}
+
+/******* For Reset Password ************/
+.container {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.error_msg,
+.success_msg {
+	width: 370px;
+	padding: 15px;
+	margin: 5px 0;
+	font-size: 14px;
+	background-color: #f34646;
+	color: white;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.success_msg {
+	background-color: #5cdd5c;
+}
