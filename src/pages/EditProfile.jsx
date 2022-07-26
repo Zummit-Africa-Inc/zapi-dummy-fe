@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEditService } from '../services/editProService'
 import { LoadingSpinner, InputField } from '../components';
 import { login, updateProfile } from '../redux/features/user/userSlice';
+import { useHttpRequest } from '../hooks/fetch-hook'
 
 
-// const identity_url = process.env.REACT_APP_IDENTITY_URL
+
 
 
   const useStyles = makeStyles({
@@ -33,95 +34,69 @@ import { login, updateProfile } from '../redux/features/user/userSlice';
 const EditProfile = (() => {
     const classes = useStyles()
     const navigate = useNavigate()
-    const { user } = useSelector((state) => ({ ...state.user }));
+    // const { user } = useSelector((state) => ({ ...state.user }));
+    const { user } = useSelector(store => store.user );
     console.log(user)
     
     const cookies = new Cookies()
     const userId = cookies.get('userId')
     const { error, loading, editUser, clearError } = useEditService()
     const dispatch = useDispatch();
-    const [state, setState] = useState({fullName: '', email: ''})
-    const { fullName, email } = state;
-
-    useEffect(() => {
-      if(user) {
-        setState({ ...user});
-      }
-    },[user])
-
-    const handleInputChange = (e) => {
-      let { name, value } = e.target;
-      setState({ ...state, [name]: value});
-    };
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      if (!fullName || !email) {
-        clearError('please input all field');
-      } else {
-        dispatch(login(state));
-        navigate(`/user/${userId}`);
-        clearError('');
-      }
-    }
+    const [fullName, setFullName] = useState(user.fullName)
+    const [email, setEmail] = useState(user.email)
+    const identity_url = process.env.REACT_APP_IDENTITY_URL
 
 
+  
 
-   
-
-
-
-
-
-
-
-    // const handleEdit =  async (e) => {
-    //   e.preventDefault()
-      
-    //   setValue({ fullName: '', email: ''});
-    //   navigate(`/user/${userId}`)
-       
-    // }
-
-
-
-
-  //   const handleSubmit = async(e) => {
-  //     e.preventDefault()
-  //   const payload = {email, fullName}
-  //     try{
-  //         const res = await editUser(payload)
-  //         console.log(res)
-  //     }catch(err) {}
-      
-  //     if(error) return
-  //     navigate(`/user/${userId}`)
-  //     setValue('')
-  // }
-    
     // const handleSubmit = (e) => {
-    //   e.preventDefault()
-      
-    //   fetch(`${identity_url}/user/${userId}`, {
-    //     method:'PATCH',
-    //     headers:{
-    //       'Accept': 'application/json, text/plain, */*',
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body:JSON.stringify(data)
-    //   }).then((res) => res.json())
-    //     .then(res => {
-    //       console.warn(res)
-    //       if(res.ok) return
-    //       navigate(`/user/${userId}`)
-        
-    //   }).catch(err => console.error(err))
+    //   e.preventDefault();
+    //   const payload = { fullName, email };
+    //   if (!fullName || !email) {
+    //     clearError('please input all field');
+    //   } else {
+    //     dispatch(updateProfile(payload));
+    //     navigate(`/user/${userId}`);
 
-      
-    //     setData("")
+    //     cookies.set('fullName', fullName)
+    //     cookies.set('email', email)
+    //     clearError('');
+    //   }
+   
+    // const handleSubmit = async(e) => {
+    //   const payload = { fullName, email }
+    //   const body = JSON.stringify(payload)
+    //   const headers = {'Content-Type': 'application/json'}
+    //   try{
+    //     const data = await editUser(`${identity_url}/user/${userId}`, 'PATCH', body, headers)
+    //     dispatch(updateProfile(data));
+    //     navigate(`/user/${userId}`);
+
+    //     cookies.set('fullName', fullName);
+    //     cookies.set('email', email);
+
+    //   }catch(error) {
+    //     console.log(error)
+    //   }
     // }
 
 
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const payload = { fullName, email }
+
+      try{
+        const data = await editUser(payload)
+        console.log(data)
+        dispatch(updateProfile(payload));
+        navigate(`/user/${userId}`);
+        cookies.set('fullName', fullName);
+        cookies.set('email', email);
+
+      }catch (error) {
+        console.log(error)
+      }
+     }
 
 
 
@@ -136,13 +111,13 @@ const EditProfile = (() => {
     <Stack direction='column' height='60vh' alignItems='center' justifyContent='center' textAlign='center' py={1} px={2}>
         <Typography variant='h4' my={2}>Edit Your Profile Here {user.fullName} </Typography>
       <form className={classes.form} onSubmit={handleSubmit} >
-      <InputField  type='text' label='Full Name' value={fullName || ''} name="fullName" onChange={handleInputChange} />
+      <InputField  type='text' label='Full Name' value={fullName || ''} name="fullName" onChange={(e) => setFullName(e.target.value)} />
 
         <br />
-        <InputField  type='email' label='Email' value={email || ''} name="email" onChange={handleInputChange}  />
+        <InputField  type='email' label='Email' value={email || ''} name="email" onChange={(e) => setEmail(e.target.value)}  />
 
         <br />
-        <Button type='submit' variant='contained' onClick={handleInputChange} >
+        <Button type='submit' variant='contained' >
             Update
         </Button>
       </form>
