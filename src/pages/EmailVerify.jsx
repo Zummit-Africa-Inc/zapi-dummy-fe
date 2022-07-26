@@ -15,9 +15,9 @@ const EmailVerify = () => {
     useEffect(() => {
 		const verifyEmailUrl = async () => {
 			try {
-				const url = `${identity_url}/api-hub/auth/reset/${param.token}`;
-				const { data } = await axios.get(url);
-				console.log(data);
+				const url = `${identity_url}/auth/reset/${param.token}`;
+				const res = await axios.get(url);
+				console.log(res.data);
 				setValidUrl(true);
 			} catch (error) {
 				console.log(error);
@@ -38,7 +38,15 @@ const EmailVerify = () => {
             </Link>
 		</div>
     ) : (
+      <div>
         <h1>404 Page Not Found</h1>
+        <Link to="/login">
+            <Button type='submit' variant='contained'>
+                    Go to Login Page
+            </Button>
+        </Link>
+      </div>
+        
     )}
     </>
   )

@@ -38,7 +38,7 @@ const PasswordReset = () => {
 	  const [isDisabled, setIsDisabled] = useState(true);
 	  const param = useParams();
 
-    const url = `${identity_url}/auth/reset/${param.id}/${param.token}`;
+    const url = `${identity_url}/auth/reset/${param.token}`;
 
 	// useEffect(()=>{
 	// 	console.log(param);
@@ -92,36 +92,29 @@ const PasswordReset = () => {
     const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password !== passwordConfirm) {
+			setError("Passwords don't match");
 			setPassword("");
 			setPasswordConfirm("");
 			setTimeout(()=>{
 				setError("");
 			}, 5000);
-			return setError("Passwords don't match");
 		} 
 			// Post to server
 			
 			try {
-				const res = await axios.post(url, { password });
+				const res = await axios.post(url, { password, passwordConfirm });
 				// console.log(res);
 				
 				setMsg(res.data.message);
-				setError("");
 				window.location = "/email-verify";
 			} catch (error) {
-				if (
-					error.response &&
-					error.response.status >= 400 &&
-					error.response.status <= 500
-				  ){
-					setError(error.response.data.message);
-					setTimeout(()=> {
-						setError("");
-					},5000);
-					setMsg("");
-				  }
+				
+				setError(error.response.data.message);
+				setTimeout(()=> {
+					setError("");
+				},5000);
+				  
 			}
-		
 		
 	};
 

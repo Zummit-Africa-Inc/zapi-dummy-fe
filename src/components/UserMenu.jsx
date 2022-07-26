@@ -52,6 +52,11 @@ const UserMenu = () => {
                 Settings
             </MenuItem>
             </Link>
+            <Link to='/change-password'>
+            <MenuItem onClick={handleClose}>
+                Change Password
+            </MenuItem>
+            </Link>
             <Link to={`/api/api/new/${user.profileId}`}>
             <MenuItem onClick={handleClose}>
                 My APIs
