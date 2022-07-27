@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Stack, Typography, Tabs, Tab, Grid } from '@mui/material'
+import React, { useState, useRef, useEffect } from 'react'
+import { useSelector , useDispatch} from 'react-redux'
+import { Avatar, Stack, Typography, Tabs, Tab, Grid, Button } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { useFetch } from '../services/useFetch';
 import {TabPanel} from '../components'
 import { UserHeader, UserTextbox } from '../components'
 import SubscribedApiProfile from '../components/SubscribedApiProfile'
+
+
 
 
 const base_url = process.env.REACT_APP_BASE_URL
@@ -25,13 +27,41 @@ const useStyles = makeStyles({
       backgroundColor: 'rgba(0,0,0,0.1)'
     }
   },
+  form: {
+    width: '50%',
+    display: 'grid',
+    placeItems: 'center',
+    gap: '1rem',
+    marginTop: '2rem',
+    '@media screen and (max-width: 800px)': {
+      width: '90%'
+    },
+    '@media screen and (min-width: 1270px)': {
+      width: '60%'
+      }
+  }, main: {
+    borderRadius: '90px 0 0 0 ',
+    height: '150px',
+    backgroundColor: 'var(--mid)',
+    border:'none',
+  },
+  image: {
+    position: 'static !important',
+    margin: '-3rem 0 0 2rem',
+    border: '3px solid var(--mid)',
+  },
 })
 
 const UserProfile = () => {
   const [tab, setTab] = useState(0)
   const classes = useStyles()
   const { data } = useFetch(`${base_url}/api`)
-  const { user } = useSelector(store => store.user)
+  console.log(data)
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => ({ ...state.user}));
+  console.log(user.fullName)
+  
+
 
   const listData = (name, id, description ) => {
       return { name, id, description }
@@ -60,7 +90,7 @@ const UserProfile = () => {
           <Typography variant='h6' style={{ fontSize: '1rem'}}>
             Email: 
             <span style={{ color: 'var(--base)', marginLeft: 10 }}>
-              {user ? user.email : 'someone@example.com'}
+              {user.email ? user.email : 'someone@example.com'}
             </span>
           </Typography>
       </Stack>

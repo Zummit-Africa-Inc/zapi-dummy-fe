@@ -98,6 +98,7 @@ const LoginPage = () => {
       cookies.set('userId', userId)
       cookies.set('fullName', fullName)
       cookies.set('email', email)
+      cookies.set('userId', userId)
 
       if(!prevPath.state || prevPath.state === null) {
         navigate('/')
