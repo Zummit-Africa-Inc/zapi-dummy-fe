@@ -12,35 +12,35 @@ const initialState = {
 
 }
 
-// export const updateCurrentUser = createAsyncThunk(
-//     'user/update', async (user, userId) => {
-//        const response = await fetch(`${identity_url}/user/${userId}`, {
-//         method:'PATCH',
-//         headers: {
-//         'Accept': 'application/json, text/plain, */*',
-//         'Content-Type': 'application/json'
-//         },
-//        body: JSON.stringify(user, userId)
-//     })
-//     const result = await response.data
-//     return result
-// })
-
-export const updateUser = (user, userId) => {
-    return function (dispatch) {
-          fetch(`${url}/user/${userId}`, user, {
-            method:'PATCH',
-            headers:{
-            'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-            },
-           body:JSON.stringify(user, userId)
-    }).then((resp) => {
-        dispatch(updateProfile(resp.data));
+export const updateUser = createAsyncThunk(
+    'user/update', async (user, userId) => {
+       const response = await fetch(`${url}/user/${userId}`, {
+        method:'PATCH',
+        headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+        },
+       body: JSON.stringify(user, userId)
     })
-    .catch((error) => console.log(error))
-    };
-};
+    const result = await response.data
+    return result
+})
+
+// export const updateUser = (user, userId) => {
+//     return function (dispatch) {
+//           fetch(`${url}/user/${userId}`, user, {
+//             method:'PATCH',
+//             headers:{
+//             'Accept': 'application/json, text/plain, */*',
+//             'Content-Type': 'application/json'
+//             },
+//            body:JSON.stringify(user, userId)
+//     }).then((resp) => {
+//         dispatch(updateProfile(resp.data));
+//     })
+//     .catch((error) => console.log(error))
+//     };
+// };
 
 
 
@@ -62,10 +62,8 @@ const userSlice = createSlice({
         updateProfile: (state, { payload }) => {
            state.user = payload
            state.isLoading = false
+        },
     },
-    
-    },
-
 })
 
 export const { login, logout, signup, updateProfile } = userSlice.actions

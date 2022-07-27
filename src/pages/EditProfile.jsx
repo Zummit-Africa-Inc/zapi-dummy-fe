@@ -34,65 +34,27 @@ import { useHttpRequest } from '../hooks/fetch-hook'
 const EditProfile = (() => {
     const classes = useStyles()
     const navigate = useNavigate()
-    // const { user } = useSelector((state) => ({ ...state.user }));
     const { user } = useSelector(store => store.user );
-    console.log(user)
-    
     const cookies = new Cookies()
     const userId = cookies.get('userId')
     const { error, loading, editUser, clearError } = useEditService()
     const dispatch = useDispatch();
     const [fullName, setFullName] = useState(user.fullName)
-    const [email, setEmail] = useState(user.email)
-    const identity_url = process.env.REACT_APP_IDENTITY_URL
+    
 
-
-  
-
-    // const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   const payload = { fullName, email };
-    //   if (!fullName || !email) {
-    //     clearError('please input all field');
-    //   } else {
-    //     dispatch(updateProfile(payload));
-    //     navigate(`/user/${userId}`);
-
-    //     cookies.set('fullName', fullName)
-    //     cookies.set('email', email)
-    //     clearError('');
-    //   }
-   
-    // const handleSubmit = async(e) => {
-    //   const payload = { fullName, email }
-    //   const body = JSON.stringify(payload)
-    //   const headers = {'Content-Type': 'application/json'}
-    //   try{
-    //     const data = await editUser(`${identity_url}/user/${userId}`, 'PATCH', body, headers)
-    //     dispatch(updateProfile(data));
-    //     navigate(`/user/${userId}`);
-
-    //     cookies.set('fullName', fullName);
-    //     cookies.set('email', email);
-
-    //   }catch(error) {
-    //     console.log(error)
-    //   }
-    // }
 
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const payload = { fullName, email }
+      const payload = { fullName }
 
       try{
         const data = await editUser(payload)
         console.log(data)
         dispatch(updateProfile(payload));
-        navigate(`/user/${userId}`);
-        cookies.set('fullName', fullName);
-        cookies.set('email', email);
-
+        navigate(`/user/${userId}`);     
+        cookies.set('fullName', fullName)
+        window.location.reload()
       }catch (error) {
         console.log(error)
       }
@@ -112,10 +74,6 @@ const EditProfile = (() => {
         <Typography variant='h4' my={2}>Edit Your Profile Here {user.fullName} </Typography>
       <form className={classes.form} onSubmit={handleSubmit} >
       <InputField  type='text' label='Full Name' value={fullName || ''} name="fullName" onChange={(e) => setFullName(e.target.value)} />
-
-        <br />
-        <InputField  type='email' label='Email' value={email || ''} name="email" onChange={(e) => setEmail(e.target.value)}  />
-
         <br />
         <Button type='submit' variant='contained' >
             Update

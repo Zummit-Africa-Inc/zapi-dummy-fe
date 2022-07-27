@@ -56,6 +56,7 @@ const UserProfile = () => {
   const [tab, setTab] = useState(0)
   const classes = useStyles()
   const { data } = useFetch(`${base_url}/api`)
+  console.log(data)
   const dispatch = useDispatch();
   const { user } = useSelector((state) => ({ ...state.user}));
   console.log(user.fullName)
@@ -89,7 +90,7 @@ const UserProfile = () => {
           <Typography variant='h6' style={{ fontSize: '1rem'}}>
             Email: 
             <span style={{ color: 'var(--base)', marginLeft: 10 }}>
-              {user ? user.email : 'someone@example.com'}
+              {user.email ? user.email : 'someone@example.com'}
             </span>
           </Typography>
       </Stack>

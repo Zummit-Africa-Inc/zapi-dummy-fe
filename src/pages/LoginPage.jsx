@@ -88,7 +88,6 @@ const LoginPage = () => {
     try {
       const data = await sendRequest(`${url}/auth/signin`, 'POST', body, headers)
       dispatch(login(data.data))
-      console.log(data)
 
       if(!data || data === undefined) return
 

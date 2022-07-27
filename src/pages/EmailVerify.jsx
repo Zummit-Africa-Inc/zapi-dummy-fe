@@ -1,55 +1,79 @@
-import React, { useState, useEffect} from 'react';
-import { useParams, Link } from "react-router-dom";
-import axios from "axios";
-import { Button, Stack, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom"
+import { Alert, Button, Stack, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 
+import { InputField, LoadingSpinner } from '../components'
+import { useHttpRequest } from '../hooks/fetch-hook'
+import { login } from '../redux/features/user/userSlice'
 
-const identity_url = process.env.REACT_APP_IDENTITY_URL
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+    display: 'grid',
+    placeItems: 'center',
+  },
+  form: {
+    width: '90%',
+    display: 'grid',
+    placeItems: 'center',
+    gap: '1.5rem',
+    marginTop: '2rem',
+    '@media screen and (max-width: 800px)': {
+      width: '90%'
+    },
+    '@media screen and (min-width: 1270px)': {
+      width: '60%'
+    }
+  }
+})
 
+const url = process.env.REACT_APP_IDENTITY_URL
 
 const EmailVerify = () => {
-    const [validUrl, setValidUrl] = useState(false);
-	const param = useParams();
+  const [token, setToken] = useState('')
+  const { clearError, error, loading, sendRequest } = useHttpRequest()
+  const navigate = useNavigate()
+  const classes = useStyles()
+  
+  const handleEmailVerification = async(e) => {
+    e.preventDefault()
 
-    useEffect(() => {
-		const verifyEmailUrl = async () => {
-			try {
-				const url = `${identity_url}/auth/reset/${param.token}`;
-				const res = await axios.get(url);
-				console.log(res.data);
-				setValidUrl(true);
-			} catch (error) {
-				console.log(error);
-				setValidUrl(false);
-			}
-		};
-		verifyEmailUrl();
-	}, [param]);
+    if(!token) {
+      return alert('Please enter a valid token')
+    }
+
+    try {
+      await sendRequest(`${url}/email-verification/${token}`)
+    } catch (error) {}
+
+    if(error) return
+    navigate('/login')
+  }
+
   return (
     <>
-    {validUrl ? (
-        <div className="container">
-            <h1>Email verified successfully</h1>
-            <Link to="/login">
-            <Button type='submit' variant='contained'>
-                    Go to Login Page
-            </Button>
-            </Link>
-		</div>
-    ) : (
-      <div>
-        <h1>404 Page Not Found</h1>
-        <Link to="/login">
-            <Button type='submit' variant='contained'>
-                    Go to Login Page
-            </Button>
-        </Link>
-      </div>
-        
-    )}
+    {error && (
+      <Alert style={{ position: 'absolute', top: '10%', zIndex:3 }} severity='error' onClose={clearError}>
+        {error}
+      </Alert>)}
+    {loading && <LoadingSpinner />}
+    <Stack className={classes.root}>
+      <Typography variant='h4' mt={4} mb={8}>
+        Enter the OPT sent to your email address.
+      </Typography>
+
+      <Stack width='80%' alignItems='center' justifyContent='center'>
+        <form onSubmit={handleEmailVerification} className={classes.form}>
+          <InputField label='OTP' name='token' value={token} onChange={(e) => setToken(e.target.value)} placeholder='One Time Password' fullWidth />
+          <Button variant='contained' type='submit'>
+            Confirm
+          </Button>
+        </form>
+      </Stack>
+    </Stack>
     </>
   )
 }
 
-export default EmailVerify;
+export default EmailVerify

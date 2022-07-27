@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, Divider, Typography, Alert, Stack, ListItem } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import { CheckCircleOutline } from '@mui/icons-material'
@@ -58,8 +58,8 @@ const SignupPage = () => {
     const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [info, setInfo] = useState(null)
     const classes = useStyles()
-    const navigate = useNavigate()
     const { error, loading, signupUser, clearError } = useSignupService()
 
     // @Taiwo Akindele, I think the special characters in this regex should be extended, they are too few.
@@ -71,20 +71,25 @@ const SignupPage = () => {
         const payload = { fullName, email, password }
 
         try{
-            const data = await signupUser(payload)
-            console.log(data)
+           await signupUser(payload)
         }catch(err) {}
         
         if(error) return
-        navigate('/login')
+        setInfo(`We've sent a verfication link to your email.`)
         setFullName(''); setEmail(''); setPassword('');
     }
+
+    const clearInfo = () => setInfo(null)
 
     return (
         <>
         {error && (
         <Alert style={{ position: 'absolute', top: '10%', zIndex:3 }} severity='error' onClose={clearError}>
             {error}
+        </Alert>)}
+        {info && (
+        <Alert style={{ position: 'absolute', top: '10%', zIndex:3 }} severity='success' onClose={clearInfo}>
+            {info}
         </Alert>)}
         {loading && <LoadingSpinner />}
         <main className={classes.main}>
