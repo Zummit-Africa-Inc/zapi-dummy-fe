@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import { Tab, Tabs, Stack, Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
@@ -31,6 +32,7 @@ const SingleApi = () => {
   const [openCarousel, setOpenCarousel] = useState([])
   const { id } = useParams()
   
+
   try{
     async function getCarousel() {
         const res = await fetch(`${base_url}/api/${id}`)
@@ -45,6 +47,23 @@ const SingleApi = () => {
       
   }
 
+  const { user } = useSelector(store => store.user)
+  const [data, setData] = useState([])
+  const getSubscribedApi = async() => {
+    const res = await fetch(`${base_url}/subscription/${user.profileId}/all`)
+    const data = await res.json()
+    setData(data.data)
+    console.log(data)
+  }
+
+  useEffect(() => {
+      getSubscribedApi()
+  }, [])
+
+
+
+ const isSubscribed = data.find((api) => api.id !== id)
+//console.log(isSubscribed)
 
   return (
     <>
@@ -70,7 +89,7 @@ const SingleApi = () => {
                 <Stack className={classes.tabs_container}>
                   <TabPanel value={tab} index={0}>
                     <Stack direction='column'>
-                      <Pricing setOpenPopup={setOpenPopup} />
+                      <Pricing isSubscribed={isSubscribed} setOpenPopup={setOpenPopup} />
                     </Stack>
                   </TabPanel>
                   <TabPanel value={tab} index={1}>

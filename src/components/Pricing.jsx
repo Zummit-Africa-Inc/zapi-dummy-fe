@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Pricing = ({setOpenPopup}) => {
+const Pricing = ({setOpenPopup, isSubscribed}) => {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = useState(null)
     const open = Boolean(anchorEl)
@@ -83,7 +83,7 @@ const Pricing = ({setOpenPopup}) => {
         </Stack>
         {/* Pricing Table Section */}
         <Stack direction='column' width='80%' alignItems='center' justifyContent='space-between'>
-            <PricingTable setOpenPopup={setOpenPopup} />
+            <PricingTable isSubscribed={isSubscribed} setOpenPopup={setOpenPopup} />
         </Stack>
          {/* FAQ Section */}
         <Stack direction='column' width='70%' textAlign='center'>

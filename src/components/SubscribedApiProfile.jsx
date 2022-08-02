@@ -13,6 +13,7 @@ const SubscribedApiProfile = () => {
     const res = await fetch(`${url}/subscription/${user.profileId}/all`)
     const data = await res.json()
     setData(data.data)
+    console.log(data)
   }
 
   useEffect(() => {

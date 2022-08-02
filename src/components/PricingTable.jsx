@@ -22,7 +22,8 @@ const rows = [
   createData('Rate Limit', '', '', '', '12000 requests per hour'),
 ];
 
-const BasicTable = ({setOpenPopup}) => {
+const BasicTable = ({setOpenPopup, isSubscribed}) => {
+  //const [subscribe, setSubscribe] = useState(false);
   const [buttonSwitch, setButtonSwitch] = useState(true);
   const [buttonSwitchPro, setButtonSwitchPro] = useState(true);
   const [buttonSwitchUltra, setButtonSwitchUltra] = useState(true);
@@ -149,6 +150,7 @@ const BasicTable = ({setOpenPopup}) => {
   }
 
 
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -157,10 +159,9 @@ const BasicTable = ({setOpenPopup}) => {
             <TableCell>Objects</TableCell>
             <TableCell sx={{ fontSize: 25, lineHeight: 1.5 }} align="center">
               Basic <br /> $0.00 / mo <br />
-              {buttonSwitch && (<Button variant='contained' onClick={toggleButton}>
+              {!isSubscribed ? (<Button variant='contained' onClick={toggleButton}>
                 Subscribe
-              </Button>)}
-              {!buttonSwitch && (<Button variant='contained' onClick={unsubButton}>
+              </Button>) : (<Button variant='contained' onClick={unsubButton}>
                 Unsubscribe
               </Button>)}
             </TableCell>
