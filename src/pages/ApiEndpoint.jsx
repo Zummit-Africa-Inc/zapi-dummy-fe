@@ -44,7 +44,7 @@ const ApiEndpoint = () => {
 	const [method, setMethod] = useState("get");
 	const [route, setRoute] = useState("/");
 	const [headers, setHeaders] = useState([""]);
-	const [requestBodyy, setRequestBodyy] = useState([
+	const [requestBody, setRequestBody] = useState([
 		{
 			payloadName: "",
 			dataType: "",
@@ -69,19 +69,19 @@ const ApiEndpoint = () => {
 			: setShowPostComponent(false);
 	}, [method]);
 	let handleChange = (i, e) => {
-		let newFormValues = [...requestBodyy];
+		let newFormValues = [...requestBody];
 		newFormValues[i][e.target.name] = e.target.value;
-		setRequestBodyy(newFormValues);
+		setRequestBody(newFormValues);
 	};
 	let addFormFields = () => {
-		setRequestBodyy([...requestBodyy, { payloadName: "", dataType: "" }]);
+		setRequestBody([...requestBody, { payloadName: "", dataType: "" }]);
 	};
 	let removeFormFields = i => {
-		let newBody = [...requestBodyy];
+		let newBody = [...requestBody];
 		newBody.splice(i, 1);
-		setRequestBodyy(newBody);
+		setRequestBody(newBody);
 	};
-	const requestBody = Object.assign({}, requestBodyy);
+	// const requestBody = Object.assign({}, requestBodyy);
 	const handleSubmit = async e => {
 		e.preventDefault();
 
@@ -164,7 +164,7 @@ const ApiEndpoint = () => {
 							</Stack>
 						)}
 						{showPostComponent &&
-							requestBodyy.map((element, index) => (
+							requestBody.map((element, index) => (
 								<div key={index}>
 									<InputLabel>Payload Name</InputLabel>
 									<Stack direction="row">
