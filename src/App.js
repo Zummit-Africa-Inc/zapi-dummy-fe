@@ -119,7 +119,7 @@ const App = () => {
 						<Route path="/user/settings" element={<Settings />} />
 
 						{/* Organization Pages */}
-						<Route path="/orgs/:Id" element={<OrganizationPage />} />
+						<Route path="/orgs/:id" element={<OrganizationPage />} />
 						<Route path="/orgs/create-new" element={<CreateOrg />} />
 						<Route path="/orgs-list/:id" element={<OrgList />} />
 					</Route>

@@ -47,18 +47,18 @@ export default function OrganizationTeammates() {
                         <Link to='/orgs/create-new'><Button variant='contained'>Create Organization</Button></Link>
                     </TableCell> */}
 					</TableHead>
-					{orgTeam.map(row => (
-						<TableBody>
+					<TableBody>
+						{orgTeam.map(row => (
 							<TableRow
 								key={row.id}
 								sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 							>
-								<TableCell component="th" scope="row" key={row.id}>
+								<TableCell component="th" scope="row">
 									{row.role}
 								</TableCell>
 							</TableRow>
-						</TableBody>
-					))}
+						))}
+					</TableBody>
 				</Table>
 			</TableContainer>
 		</div>
